@@ -1,5 +1,6 @@
 from cedarscript_editor import find_commands, CEDARScriptEditor
 from aider.coders.base_coder import Coder
+from aider.coders.base_prompts import CoderPrompts
 import os
 from cedarscript_integration_aider import CEDARScriptPromptsGrammar, CEDARScriptPromptsRW, CEDARScriptPromptsW
 
@@ -33,18 +34,22 @@ class CEDARScriptCoder(Coder):
         for i, applied_command_result in enumerate(cedarscript_editor.apply_commands(cedarscript_commands)):
             print(f"[apply_edits]   (#{i+1}) {applied_command_result}")
 
+class CEDARScriptPromptsAdapter(CoderPrompts):
+    def __init__(self, cedarscript_prompts):
+        self.cedarscript_prompts = cedarscript_prompts
+
+    def __getattr__(self, name):
+        return getattr(self.cedarscript_prompts, name)
 
 class CEDARScriptCoderGrammar(CEDARScriptCoder):
-    gpt_prompts = CEDARScriptPromptsGrammar()
+    gpt_prompts = CEDARScriptPromptsAdapter(CEDARScriptPromptsGrammar())
     edit_format = gpt_prompts.edit_format_name()
-
 
 class CEDARScriptCoderRW(CEDARScriptCoder):
-    gpt_prompts = CEDARScriptPromptsRW()
+    gpt_prompts = CEDARScriptPromptsAdapter(CEDARScriptPromptsRW())
     edit_format = gpt_prompts.edit_format_name()
 
-
 class CEDARScriptCoderW(CEDARScriptCoder):
-    gpt_prompts = CEDARScriptPromptsW()
+    gpt_prompts = CEDARScriptPromptsAdapter(CEDARScriptPromptsW())
     edit_format = gpt_prompts.edit_format_name()
 
