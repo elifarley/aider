@@ -34,22 +34,27 @@ class CEDARScriptCoder(Coder):
         for i, applied_command_result in enumerate(cedarscript_editor.apply_commands(cedarscript_commands)):
             print(f"[apply_edits]   (#{i+1}) {applied_command_result}")
 
-class CEDARScriptPromptsAdapter(CoderPrompts):
+class _CEDARScriptPromptsAdapter(CoderPrompts):
     def __init__(self, cedarscript_prompts):
         self.cedarscript_prompts = cedarscript_prompts
 
     def __getattr__(self, name):
-        return getattr(self.cedarscript_prompts, name)
+        result = getattr(self.cedarscript_prompts, name)
+        if name != 'edit_format_training':
+            print(f"[__getattr__] {name} = {result}")
+        if name == 'edit_format_name':
+            print(f'edit_format_name: {result()}')
+        return result
 
 class CEDARScriptCoderGrammar(CEDARScriptCoder):
-    gpt_prompts = CEDARScriptPromptsAdapter(CEDARScriptPromptsGrammar())
+    gpt_prompts = _CEDARScriptPromptsAdapter(CEDARScriptPromptsGrammar())
     edit_format = gpt_prompts.edit_format_name()
 
 class CEDARScriptCoderRW(CEDARScriptCoder):
-    gpt_prompts = CEDARScriptPromptsAdapter(CEDARScriptPromptsRW())
+    gpt_prompts = _CEDARScriptPromptsAdapter(CEDARScriptPromptsRW())
     edit_format = gpt_prompts.edit_format_name()
 
 class CEDARScriptCoderW(CEDARScriptCoder):
-    gpt_prompts = CEDARScriptPromptsAdapter(CEDARScriptPromptsW())
+    gpt_prompts = _CEDARScriptPromptsAdapter(CEDARScriptPromptsW())
     edit_format = gpt_prompts.edit_format_name()
 

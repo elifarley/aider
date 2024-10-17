@@ -1,7 +1,6 @@
 class CoderPrompts:
     system_reminder = ""
     final_remarks = ""
-    cedarscript_training=""
 
     files_content_gpt_edits = "I committed the changes with git hash {hash} & commit msg: {message}"
 

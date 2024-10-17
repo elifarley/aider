@@ -93,7 +93,7 @@ class Coder:
 
     @classmethod
     def create(
-        self,
+        cls,
         main_model=None,
         edit_format=None,
         io=None,
@@ -933,7 +933,7 @@ class Coder:
             fence=self.fence,
             lazy_prompt=lazy_prompt,
             platform=platform_text,
-            cedarscript_training=self.gpt_prompts.cedarscript_training,
+            edit_format_training=self.gpt_prompts.edit_format_training,
             final_remarks=self.gpt_prompts.final_remarks,
             shell_cmd_prompt=shell_cmd_prompt,
             shell_cmd_reminder=shell_cmd_reminder,

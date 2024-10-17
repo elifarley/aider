@@ -25,12 +25,14 @@ backoff==2.2.1
     # via -r requirements/requirements.in
 beautifulsoup4==4.12.3
     # via -r requirements/requirements.in
-cedarscript-ast-parser==0.1.6
+cedarscript-ast-parser==0.2.3
     # via cedarscript-editor
-cedarscript-editor==0.1.10
+cedarscript-editor==0.2.9
     # via -r requirements/requirements.in
-cedarscript-grammar==0.0.8
+cedarscript-grammar==0.0.10
     # via cedarscript-ast-parser
+cedarscript-integration-aider==0.0.2
+    # via -r requirements/requirements.in
 certifi==2024.8.30
     # via
     #   httpcore
