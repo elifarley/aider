@@ -1,12 +1,17 @@
+import os
+
 from cedarscript_editor import find_commands, CEDARScriptEditor
+from cedarscript_integration_aider import CEDARScriptPromptsGrammar, CEDARScriptPromptsRW, CEDARScriptPromptsW, \
+    CEDARScriptPromptsAdapter
+
 from aider.coders.base_coder import Coder
 from aider.coders.base_prompts import CoderPrompts
-import os
-from cedarscript_integration_aider import CEDARScriptPromptsGrammar, CEDARScriptPromptsRW, CEDARScriptPromptsW
+
 
 class CEDARScriptCoder(Coder):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.root_path = kwargs.get('root_path', os.getcwd())
 
     def get_edits(self):
         # Note: it should be allowed for the editor to change any file in the project, as changing the file
@@ -28,33 +33,24 @@ class CEDARScriptCoder(Coder):
         """
         Apply the edits (expressed as CEDARScript commands) to the files
         """
-        cedarscript_editor = CEDARScriptEditor(root_path=os.getcwd())
+        cedarscript_editor = CEDARScriptEditor(root_path=self.root_path)
         cedarscript_commands = [x[1] for x in file_and_cedarscript_commands]
         print(f"[apply_edits] Command count: {len(cedarscript_commands)}")
         for i, applied_command_result in enumerate(cedarscript_editor.apply_commands(cedarscript_commands)):
             print(f"[apply_edits]   (#{i+1}) {applied_command_result}")
 
-class _CEDARScriptPromptsAdapter(CoderPrompts):
-    def __init__(self, cedarscript_prompts):
-        self.cedarscript_prompts = cedarscript_prompts
-
-    def __getattr__(self, name):
-        result = getattr(self.cedarscript_prompts, name)
-        if name != 'edit_format_training':
-            print(f"[__getattr__] {name} = {result}")
-        if name == 'edit_format_name':
-            print(f'edit_format_name: {result()}')
-        return result
 
 class CEDARScriptCoderGrammar(CEDARScriptCoder):
-    gpt_prompts = _CEDARScriptPromptsAdapter(CEDARScriptPromptsGrammar())
+    gpt_prompts = CEDARScriptPromptsAdapter(CEDARScriptPromptsGrammar(), CoderPrompts())
     edit_format = gpt_prompts.edit_format_name()
+
 
 class CEDARScriptCoderRW(CEDARScriptCoder):
-    gpt_prompts = _CEDARScriptPromptsAdapter(CEDARScriptPromptsRW())
+    gpt_prompts = CEDARScriptPromptsAdapter(CEDARScriptPromptsRW(), CoderPrompts())
     edit_format = gpt_prompts.edit_format_name()
 
+
 class CEDARScriptCoderW(CEDARScriptCoder):
-    gpt_prompts = _CEDARScriptPromptsAdapter(CEDARScriptPromptsW())
+    gpt_prompts = CEDARScriptPromptsAdapter(CEDARScriptPromptsW(), CoderPrompts())
     edit_format = gpt_prompts.edit_format_name()
 
