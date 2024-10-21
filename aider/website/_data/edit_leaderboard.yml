@@ -87,6 +87,30 @@
   versions: 0.59.2.dev
   seconds_per_case: 12.9
   total_cost: 10.0186
+- dirname: 2024-10-20-18-00-06--cedarscript-0.3.2-editing-gemini1.5flash
+  test_cases: 133
+  model: gemini/gemini-1.5-flash-latest
+  edit_format: cedarscript-g
+  commit_hash: df4c352-dirty
+  pass_rate_1: 30.1
+  pass_rate_2: 37.6
+  pass_rate_3: 38.3
+  pass_rate_4: 39.1
+  percent_cases_well_formed: 69.9
+  error_outputs: 803
+  num_malformed_responses: 297
+  num_with_malformed_responses: 40
+  user_asks: 186
+  lazy_comments: 0
+  syntax_errors: 30
+  indentation_errors: 58
+  exhausted_context_windows: 0
+  test_timeouts: 4
+  command: aider --model gemini/gemini-1.5-flash-latest
+  date: 2024-10-20
+  versions: 0.59.2.dev
+  seconds_per_case: 39.7
+  total_cost: 1.3729
 
 - dirname: 2024-05-08-20-59-15--may-gpt-3.5-turbo-whole
   test_cases: 133
