@@ -31,7 +31,7 @@ cedarscript-editor==0.3.3
     # via -r requirements/requirements.in
 cedarscript-grammar==0.0.14
     # via cedarscript-ast-parser
-cedarscript-integration-aider==0.0.7
+cedarscript-integration-aider==0.0.8
     # via -r requirements/requirements.in
 certifi==2024.8.30
     # via
