@@ -1292,6 +1292,29 @@
   versions: 0.57.2.dev
   seconds_per_case: 11.6
   total_cost: 2.8166
+- dirname: 2024-10-22-03-16-35--whole-editing-gemini1.5pro
+  test_cases: 126
+  model: gemini/gemini-1.5-pro-latest
+  edit_format: whole
+  commit_hash: 00c60cd-dirty
+  pass_rate_1: 46.8
+  pass_rate_2: 61.1
+  pass_rate_3: 66.7
+  percent_cases_well_formed: 96.8
+  error_outputs: 12
+  num_malformed_responses: 12
+  num_with_malformed_responses: 4
+  user_asks: 44
+  lazy_comments: 0
+  syntax_errors: 0
+  indentation_errors: 0
+  exhausted_context_windows: 0
+  test_timeouts: 0
+  command: aider --model gemini/gemini-1.5-pro-latest
+  date: 2024-10-22
+  versions: 0.59.2.dev
+  seconds_per_case: 15.9
+  total_cost: 1.9849
 
 - dirname: 2024-09-24-16-33-23--gemini-1.5-flash-002-whole
   test_cases: 133
