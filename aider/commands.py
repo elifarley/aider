@@ -1170,11 +1170,17 @@ class Commands:
         # First collect all expanded paths
         for pattern in filenames:
             expanded_pattern = expanduser(pattern)
-            expanded_paths = glob.glob(expanded_pattern, recursive=True)
-            if not expanded_paths:
+            if os.path.isabs(expanded_pattern):
+                # For absolute paths, glob it
+                matches = list(glob.glob(expanded_pattern))
+            else:
+                # For relative paths and globs, use glob from the root directory
+                matches = list(Path(self.coder.root).glob(expanded_pattern))
+
+            if not matches:
                 self.io.tool_error(f"No matches found for: {pattern}")
             else:
-                all_paths.extend(expanded_paths)
+                all_paths.extend(matches)
 
         # Then process them in sorted order
         for path in sorted(all_paths):
