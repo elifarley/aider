@@ -44,7 +44,7 @@ scipy<1.14
 # v0.22.2 seems to break tree-sitter-languages?
 tree-sitter==0.21.3
 
-cedarscript-integration-aider>=0.0.19
+cedarscript-integration-aider>=0.0.20
 cedarscript-editor>=0.3.16
 
 # GitHub Release action failing on "KeyError: 'home-page'"
