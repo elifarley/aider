@@ -1,7 +1,7 @@
 import os
 
 from cedarscript_editor import find_commands, CEDARScriptEditor
-from cedarscript_integration_aider import CEDARScriptPromptsGrammar, CEDARScriptPromptsRW, CEDARScriptPromptsW, \
+from cedarscript_integration_aider import CEDARScriptPromptsMain, CEDARScriptPromptsRW, CEDARScriptPromptsW, \
     CEDARScriptPromptsAdapter
 
 from aider.coders.base_coder import Coder
@@ -41,7 +41,7 @@ class CEDARScriptCoder(Coder):
 
 
 class CEDARScriptCoderGrammar(CEDARScriptCoder):
-    gpt_prompts = CEDARScriptPromptsAdapter(CEDARScriptPromptsGrammar(), CoderPrompts())
+    gpt_prompts = CEDARScriptPromptsAdapter(CEDARScriptPromptsMain(), CoderPrompts())
     edit_format = gpt_prompts.edit_format_name()
 
 
