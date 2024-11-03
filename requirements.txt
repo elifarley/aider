@@ -27,11 +27,11 @@ beautifulsoup4==4.12.3
     # via -r requirements/requirements.in
 cedarscript-ast-parser==0.5.1
     # via cedarscript-editor
-cedarscript-editor==1.1.5
+cedarscript-editor==1.1.6
     # via -r requirements/requirements.in
 cedarscript-grammar==0.5.0
     # via cedarscript-ast-parser
-cedarscript-integration-aider==1.1.1
+cedarscript-integration-aider==1.1.2
     # via -r requirements/requirements.in
 certifi==2024.8.30
     # via
