@@ -27,7 +27,7 @@ beautifulsoup4==4.12.3
     # via -r requirements/requirements.in
 cedarscript-ast-parser==0.5.1
     # via cedarscript-editor
-cedarscript-editor==1.1.6
+cedarscript-editor==1.1.7
     # via -r requirements/requirements.in
 cedarscript-grammar==0.5.0
     # via cedarscript-ast-parser
