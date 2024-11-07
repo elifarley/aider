@@ -4,13 +4,13 @@ from cedarscript_editor import find_commands, CEDARScriptEditor
 from cedarscript_integration_aider import CEDARScriptPromptsMain, CEDARScriptPromptsRW, CEDARScriptPromptsW, \
     CEDARScriptPromptsAdapter
 
-from aider.coders.base_coder import Coder
 from aider.coders.base_prompts import CoderPrompts
+from aider.coders.templated_prompt_coder import TemplatedPromptCoder
 
 
-class CEDARScriptCoder(Coder):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+class CEDARScriptCoder(TemplatedPromptCoder):
+    def __init__(self, *args, template_file='prompts/examples/technical.prompt', **kwargs):
+        super().__init__(*args, template_file=template_file, **kwargs)
         self.root_path = kwargs.get('root_path', os.getcwd())
 
     def get_edits(self):

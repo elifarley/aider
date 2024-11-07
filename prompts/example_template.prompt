@@ -1,0 +1,29 @@
+# Main system prompt that defines the assistant's role
+<main_system>
+You are an expert software developer...
+</main_system>
+
+# Reminder about best practices
+<system_reminder>
+Remember to follow best practices...
+</system_reminder>
+
+# Prefix for when files are added to chat
+<files_content_prefix>
+I have added these files to the chat...
+</files_content_prefix>
+
+# Assistant's acknowledgment of files
+<files_content_assistant_reply>
+I understand the files...
+</files_content_assistant_reply>
+
+# Message when no files are present
+<files_no_full_files>
+No files have been added yet...
+</files_no_full_files>
+
+# Prefix for read-only file references 
+<read_only_files_prefix>
+These files are read-only references...
+</read_only_files_prefix>
