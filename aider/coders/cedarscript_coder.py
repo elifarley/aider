@@ -1,16 +1,13 @@
 import os
 
 from cedarscript_editor import find_commands, CEDARScriptEditor
-from cedarscript_integration_aider import CEDARScriptPromptsMain, CEDARScriptPromptsRW, CEDARScriptPromptsW, \
-    CEDARScriptPromptsAdapter
 
-from aider.coders.base_prompts import CoderPrompts
-from aider.coders.templated_prompt_coder import TemplatedPromptCoder
+from aider.coders.folder_coder import FolderCoder
 
 
-class CEDARScriptCoder(TemplatedPromptCoder):
-    def __init__(self, *args, template_file='prompts/examples/technical.prompt', **kwargs):
-        super().__init__(*args, template_file=template_file, **kwargs)
+class CEDARScriptCoder(FolderCoder):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.root_path = kwargs.get('root_path', os.getcwd())
 
     def get_edits(self):
@@ -41,16 +38,18 @@ class CEDARScriptCoder(TemplatedPromptCoder):
 
 
 class CEDARScriptCoderGrammar(CEDARScriptCoder):
-    gpt_prompts = CEDARScriptPromptsAdapter(CEDARScriptPromptsMain(), CoderPrompts())
-    edit_format = gpt_prompts.edit_format_name()
+    edit_format = "cedarscript"
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, edit_format = self.edit_format, **kwargs)
 
-
-class CEDARScriptCoderRW(CEDARScriptCoder):
-    gpt_prompts = CEDARScriptPromptsAdapter(CEDARScriptPromptsRW(), CoderPrompts())
-    edit_format = gpt_prompts.edit_format_name()
+class CEDARScriptCoderRaw(CEDARScriptCoder):
+    edit_format = "cedarscript-raw"
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
 
 class CEDARScriptCoderW(CEDARScriptCoder):
-    gpt_prompts = CEDARScriptPromptsAdapter(CEDARScriptPromptsW(), CoderPrompts())
-    edit_format = gpt_prompts.edit_format_name()
+    edit_format = "cedarscript-w"
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, edit_format = self.edit_format, **kwargs)
 
