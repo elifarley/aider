@@ -1206,9 +1206,6 @@ class Coder:
                         )
                 except Exception as err:
                     self.mdstream = None
-                    self.check_and_open_urls(err)
-                    break
-                except Exception as err:
                     lines = traceback.format_exception(type(err), err, err.__traceback__)
                     self.io.tool_warning("".join(lines))
                     self.io.tool_error(str(err))
@@ -1356,11 +1353,9 @@ class Coder:
             res.append("- Use /clear to clear the chat history.")
             res.append("- Break your code into smaller source files.")
 
-        res.append("")
-        res.append(f"For more info: {urls.token_limits}")
-
         res = "".join([line + "\n" for line in res])
         self.io.tool_error(res)
+        self.io.offer_url(urls.token_limits)
 
     def lint_edited(self, fnames):
         res = ""
