@@ -10,6 +10,8 @@ from .help_coder import HelpCoder
 from .udiff_coder import UnifiedDiffCoder
 from .wholefile_coder import WholeFileCoder
 
+# from .single_wholefile_func_coder import SingleWholeFileFunctionCoder
+
 __all__ = [
     HelpCoder,
     AskCoder,
