@@ -20,14 +20,14 @@ class FolderCoder(Coder):
         """Creates a folder-based subclass of CoderPrompts"""
         coder_prompts_subclass: Type[CoderPrompts] = create_named_subclass(CoderPrompts, coder_name)
         coder_path: Path = prompt_folder_path(coder_name)
-        load_class_attrs_from_folder(coder_path, coder_prompts_subclass, FolderCoder.parse_banterml_pairs)
+        load_class_attrs_from_folder(coder_path, coder_prompts_subclass, FolderCoder.parse_cedarml_pairs)
         return coder_prompts_subclass
 
     @staticmethod
-    def parse_banterml_pairs(content: str) -> list[dict[str, str]]:
+    def parse_cedarml_pairs(content: str) -> list[dict[str, str]]:
         messages = []
-        user_pattern = r'<banterml:role.user>(.*?)</banterml:role.user>'
-        assistant_pattern = r'<banterml:role.assistant>(.*?)</banterml:role.assistant>'
+        user_pattern = r'<cedarml:role.user>(.*?)</cedarml:role.user>'
+        assistant_pattern = r'<cedarml:role.assistant>(.*?)</cedarml:role.assistant>'
 
         users = re.findall(user_pattern, content, re.DOTALL)
         assistants = re.findall(assistant_pattern, content, re.DOTALL)
