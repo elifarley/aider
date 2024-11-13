@@ -15,7 +15,7 @@ Your junior developer is excellent and using copy/paste, just ask it to copy por
 For brand new code or when the function being changed is small, consider providing the whole updated code in a clearly-enclosed block.
 For adding some text before or after a class/function, try something like "add this block before function a_func".
 
-Always reply in the same language as the change request.
+Always reply to the user in {language}.
 """
 
     example_messages = []
