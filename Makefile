@@ -10,7 +10,8 @@ test t:
 	echo todo pytest --cov=src/pylibtypes tests/ --cov-report term-missing
 
 install i:
-	pip install -e .
+	pip install --upgrade --force-reinstall -e . \
+	&& pip show aider-chat
 
 build b:
 	# SETUPTOOLS_SCM_PRETEND_VERSION=0.0.1
