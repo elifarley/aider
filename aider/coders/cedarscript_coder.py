@@ -1,13 +1,13 @@
 import os
 
 from cedarscript_editor import find_commands, CEDARScriptEditor
-
+import cedarscript_integration_aider
 from aider.coders.folder_coder import FolderCoder
 
 
-class CEDARScriptCoder(FolderCoder):
+class CEDARScriptCoderBase(FolderCoder):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super().__init__(*args, prompt_folder_path=cedarscript_integration_aider.prompt_folder_path, **kwargs)
         self.root_path = kwargs.get('root_path', os.getcwd())
 
     def get_edits(self):
@@ -37,19 +37,7 @@ class CEDARScriptCoder(FolderCoder):
             print(f"[apply_edits]   (#{i+1}) {applied_command_result}")
 
 
-class CEDARScriptCoderGrammar(CEDARScriptCoder):
+class CEDARScriptCoder(CEDARScriptCoderBase):
     edit_format = "cedarscript"
     def __init__(self, *args, **kwargs):
         super().__init__(*args, edit_format = self.edit_format, **kwargs)
-
-class CEDARScriptCoderRaw(CEDARScriptCoder):
-    edit_format = "cedarscript-raw"
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-
-class CEDARScriptCoderW(CEDARScriptCoder):
-    edit_format = "cedarscript-w"
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, edit_format = self.edit_format, **kwargs)
-
