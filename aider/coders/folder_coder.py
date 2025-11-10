@@ -14,8 +14,9 @@ def create_named_subclass(base_class: Type, name: str) -> Type:
 def load_class_attrs_from_folder(folder_path: Traversable, target_class: Type) -> None:
     """Load class attributes from text files in a folder.
     
-    Each .txt file in the folder will be read and its content (without .txt extension)
-    will be set as a class attribute on the target_class.
+    For each .txt file in the folder, its content will be set as a class attribute on
+    the target_class. The attribute name is derived by removing the .txt extension
+    from the filename.
     """
     if not hasattr(folder_path, 'iterdir'):
         # If folder_path doesn't exist or is not a directory, return silently
