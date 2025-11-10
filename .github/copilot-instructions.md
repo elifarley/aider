@@ -2,13 +2,13 @@
 
 ## Repository Overview
 
-**Aider** is an AI pair programming CLI tool that edits code in local git repositories using LLMs. Written in Python 3.9-3.12, works best with GPT-4o and Claude 3.5 Sonnet.
+**Aider** is an AI pair programming CLI tool that edits code in local git repositories using LLMs. Written in Python 3.10-3.12, works best with GPT-4o and Claude 3.5 Sonnet.
 
 **Stats:** ~83MB, 97 Python files, CLI app with optional GUI, PyPI package: `aider-chat`
 
 ## Development Setup
 
-**Required:** Python 3.9-3.12 (3.12 recommended), Git, pip, pip-tools
+**Required:** Python 3.10-3.12 (3.12 recommended), Git, pip, pip-tools
 
 **Setup Steps (IN ORDER):**
 ```bash
@@ -54,11 +54,14 @@ codespell                                # Spell check
 
 ## CI/CD Workflows
 
-**Three workflows on push/PR to `main`:**
+**Main workflows on push/PR to `main`:**
 
-1. **Ubuntu Tests** - Python 3.9-3.12 on Ubuntu, runs pytest
-2. **Windows Tests** - Python 3.9-3.12 on Windows, runs pytest  
+1. **Ubuntu Tests** - Python 3.10-3.12 on Ubuntu, runs pytest
+2. **Windows Tests** - Python 3.10-3.12 on Windows, runs pytest  
 3. **Docker Build** - Builds `aider` and `aider-full` for linux/amd64 and linux/arm64
+4. **Pre-commit** - Runs pre-commit hooks (isort, black, flake8, codespell)
+
+**Additional workflows:** check_pypi_version, issues automation, windows_check_pypi_version
 
 **All ignore:** `aider/website/**`, `README.md`, `HISTORY.md` (docs don't trigger CI)
 
@@ -103,11 +106,9 @@ codespell                                # Spell check
 
 1. **pip timeouts:** Use `pip install --timeout=300` or `--no-cache-dir`, retry if needed
 2. **Pinned versions** (don't upgrade without testing):
-   - `tree-sitter==0.21.3` - v0.22.2 breaks tree-sitter-languages
-   - `numpy<2` - sentence-transformers incompatible
-   - `tokenizers==0.19.1` - dependency conflicts
-   - `importlib-metadata<8.0.0` - GitHub Release action
-   - `networkx<3.3`, `scipy<1.14` - Python 3.9 compatibility
+   - `importlib-metadata<8.0.0` - GitHub Release action compatibility
+   - `networkx<3.5` - version >3.5 not available for Python 3.10
+   - `scipy<1.16` - version 1.16+ requires Python 3.11+
 
 ## Pre-Commit Checklist
 
@@ -137,5 +138,6 @@ aider --help                            # If CLI modified
 3. **Test incrementally** - run pytest often
 4. **Never edit .txt requirements** - edit .in files, run pip-compile.sh
 5. **Docs don't trigger CI** - website/README/HISTORY changes are safe
-6. **Python 3.9-3.12 compatibility required**
+6. **Python 3.10-3.12 compatibility required** (3.9 no longer supported)
 7. **NO type hints** - project policy
+8. **Contributor License Agreement** - All contributors must sign CLA (see CONTRIBUTING.md)
