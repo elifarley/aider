@@ -41,7 +41,7 @@ class FolderCoder(Coder):
     def __init__(self, *args, prompt_folder_path: Traversable, edit_format: str = None, **kwargs):
         # If edit_format was passed in kwargs, use it. Otherwise use class attribute
         if edit_format is None:
-            edit_format = self.edit_format
+            edit_format = getattr(self, 'edit_format', None)
         
         # Create the prompts subclass before calling super().__init__
         self.gpt_prompts = self._create_coder_prompts_subclass(prompt_folder_path, edit_format)
