@@ -18,6 +18,8 @@ import shtab
 from dotenv import load_dotenv
 from prompt_toolkit.enums import EditingMode
 
+from rich.console import Console
+
 from aider import __version__, models, urls, utils
 from aider.analytics import Analytics
 from aider.args import get_parser
@@ -1160,14 +1162,32 @@ def main(argv=None, input=None, output=None, force_git_root=None, return_coder=F
         try:
             coder.ok_to_warm_cache = bool(args.cache_keepalive_pings)
             coder.run()
-            analytics.event("exit", reason="Completed main CLI coder.run")
-            return
+            if hasattr(coder, "temp_mode_processed") and coder.temp_mode_processed:
+                # Revert to ask mode after processing the temporary code mode request
+                raise SwitchCoder(
+                    edit_format="ask",
+                    summarize_from_coder=False,
+                    show_announcements=False,
+                )
         except SwitchCoder as switch:
             coder.ok_to_warm_cache = False
 
+            # Handle temporary mode switch for /code in ask mode
+            placeholder = switch.kwargs.pop("placeholder", None)
+            revert_after = switch.kwargs.pop("revert_after", False)
+            if revert_after and placeholder:
+                # Process the single message in the new mode
+                new_coder = Coder.create(**switch.kwargs)
+                new_coder.io.placeholder = None  # Clear any existing placeholder
+                new_coder.temp_mode_processed = True  # Flag to trigger revert after run
+                new_coder.run(with_message=placeholder, preproc=True)
+                # After processing, the flag will trigger the revert in the loop
+                coder = new_coder
+                continue
+
             # Set the placeholder if provided
             if hasattr(switch, "placeholder") and switch.placeholder is not None:
-                io.placeholder = switch.placeholder
+                coder.io.placeholder = switch.placeholder
 
             kwargs = dict(io=io, from_coder=coder)
             kwargs.update(switch.kwargs)
@@ -1178,6 +1198,13 @@ def main(argv=None, input=None, output=None, force_git_root=None, return_coder=F
 
             if switch.kwargs.get("show_announcements") is not False:
                 coder.show_announcements()
+        except EOFError:
+            return
+        except KeyboardInterrupt:
+            # Handle KeyboardInterrupt gracefully
+            Console().show_cursor(True)
+            analytics.event("exit", reason="KeyboardInterrupt")
+            return
 
 
 def is_first_run_of_new_version(io, verbose=False):

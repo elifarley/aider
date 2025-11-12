@@ -156,6 +156,7 @@ class Commands:
             [
                 ("help", "Get help about using aider (usage, config, troubleshoot)."),
                 ("ask", "Ask questions about your code without making any changes."),
+                ("ask-further", "Ask deeper questions about your code without making any changes."),
                 ("code", "Ask for changes to your code (using the best edit format)."),
                 (
                     "architect",
@@ -195,6 +196,8 @@ class Commands:
             edit_format = self.coder.main_model.edit_format
             summarize_from_coder = False
         elif ef == "ask":
+            summarize_from_coder = False
+        elif ef == "ask-further":
             summarize_from_coder = False
 
         raise SwitchCoder(
@@ -1175,6 +1178,19 @@ class Commands:
 
     def cmd_code(self, args):
         """Ask for changes to your code. If no prompt provided, switches to code mode."""  # noqa
+        request = args.strip()
+        if self.coder.edit_format == "ask" and request:
+            # Temporarily switch to code mode to process the request, then revert
+            if self.io.confirm_ask("Apply changes in code mode then revert to ask?"):
+                code_format = self.coder.main_model.edit_format
+                raise SwitchCoder(
+                    edit_format=code_format,
+                    placeholder=request,
+                    revert_after=True,
+                )
+            else:
+                self.io.tool_output("Staying in ask mode.")
+                return
         return self._generic_chat_command(args, self.coder.main_model.edit_format)
 
     def cmd_architect(self, args):

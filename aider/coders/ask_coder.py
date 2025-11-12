@@ -1,13 +1,10 @@
-from .folder_coder import AiderFolderCoder
+from .ask_base_coder import AskBaseCoder
 
 
-class AskCoder(AiderFolderCoder):
+class AskCoder(AskBaseCoder):
     """Ask questions about code without making any changes."""
 
     edit_format = "ask"
 
-    def __init__(self, *args, edit_format: str = edit_format, **kwargs):
-        """
-        :param edit_format: Allows subclasses to specify their own edit_format
-        """
-        super().__init__(*args, edit_format = edit_format, **kwargs)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, further=False, **kwargs)
